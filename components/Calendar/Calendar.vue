@@ -92,7 +92,7 @@ const nextMonthVisibleDays = computed(() => {
 });
 
 const daysInPreviousMonth = computed(() => {
-  const previousMonth = new Date(year.value, month.value - 1, 0);
+  const previousMonth = new Date(year.value, month.value, 0);
   return previousMonth.getDate();
 });
 
