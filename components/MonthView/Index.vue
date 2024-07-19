@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-60 mt-10 text-center">
+  <div class="w-100 text-center text-center p-2">
     <div class="flex items-center text-gray-900">
-      <div class="flex-grow flex justify-start text-sm pl-2">
+      <div class="flex-grow flex justify-start text-sm pl-2 font-bold">
         {{ months[month] }} {{ year }}
       </div>
       <div class="flex border border-gray-300 rounded-md">
@@ -27,31 +27,33 @@
         </button>
       </div>
     </div>
-    <div class="grid grid-cols-7 text-xs leading-6 mt-2">
-      <div>S</div>
-      <div>M</div>
-      <div>T</div>
-      <div>W</div>
-      <div>T</div>
-      <div>F</div>
-      <div>S</div>
+    <div
+      class="grid grid-cols-7 text-xs leading-6 mt-2 font-bold ring-1 ring-gray-200 gap-px"
+    >
+      <div class="p-3 ring-1 ring-gray-200">Sun</div>
+      <div class="p-3 ring-1 ring-gray-200">Mon</div>
+      <div class="p-3 ring-1 ring-gray-200">Tue</div>
+      <div class="p-3 ring-1 ring-gray-200">Wed</div>
+      <div class="p-3 ring-1 ring-gray-200">Thu</div>
+      <div class="p-3 ring-1 ring-gray-200">Fri</div>
+      <div class="p-3 ring-1 ring-gray-200">Sat</div>
     </div>
     <div
-      class="mt-2 grid grid-cols-7 gap-px bg-gray-200 text-sm ring-1 ring-gray-200"
+      class="grid grid-cols-7 gap-px bg-gray-200 text-sm ring-1 ring-gray-200"
     >
-      <CalendarDayItem
+      <MonthViewDayItem
         v-for="(n, i) in firstDayIndex"
         :key="String(i)"
         :time="daysInPreviousMonth - firstDayIndex + n"
         isGrayed
       />
-      <CalendarDayItem
+      <MonthViewDayItem
         v-for="n in numberOfDays"
         :key="String(n)"
         :time="n"
         :isToday="isToday(n)"
       />
-      <CalendarDayItem
+      <MonthViewDayItem
         v-for="n in nextMonthVisibleDays"
         :key="String(n)"
         :time="n"
