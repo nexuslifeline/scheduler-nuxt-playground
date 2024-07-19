@@ -65,8 +65,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-defineProps<{ time?: string | number }>();
-
 const months = [
   "January",
   "February",
@@ -82,22 +80,22 @@ const months = [
   "December"
 ];
 
-const date = ref(new Date());
-const year = computed(() => date.value.getFullYear());
-const month = computed(() => date.value.getMonth());
-const firstDay = computed(() => new Date(year.value, month.value, 1));
-const lastDay = computed(() => new Date(year.value, month.value + 1, 0));
-const firstDayIndex = computed(() => firstDay.value.getDay());
-const numberOfDays = computed(() => lastDay.value.getDate());
+const date = ref<Date>(new Date());
+const year = computed<number>(() => date.value.getFullYear());
+const month = computed<number>(() => date.value.getMonth());
+const firstDay = computed<Date>(() => new Date(year.value, month.value, 1));
+const lastDay = computed<Date>(() => new Date(year.value, month.value + 1, 0));
+const firstDayIndex = computed<number>(() => firstDay.value.getDay());
+const numberOfDays = computed<number>(() => lastDay.value.getDate());
 
-const nextMonthVisibleDays = computed(() => 6 - lastDay.value.getDay());
+const nextMonthVisibleDays = computed<number>(() => 6 - lastDay.value.getDay());
 
-const daysInPreviousMonth = computed(() => {
+const daysInPreviousMonth = computed<number>(() => {
   const previousMonth = new Date(year.value, month.value, 0);
   return previousMonth.getDate();
 });
 
-const next = () => {
+const next = (): void => {
   const nextMonth = month.value + 1;
   if (nextMonth > 11) {
     date.value = new Date(year.value + 1, 0, 1); // Move to January of the next year
@@ -106,7 +104,7 @@ const next = () => {
   }
 };
 
-const previous = () => {
+const previous = (): void => {
   const previousMonth = month.value - 1;
   if (previousMonth < 0) {
     date.value = new Date(year.value - 1, 11, 1); // Move to December of the previous year
@@ -115,11 +113,11 @@ const previous = () => {
   }
 };
 
-const goToToday = () => {
+const goToToday = (): void => {
   date.value = new Date(); // Set the date to today
 };
 
-const isToday = (day: number) => {
+const isToday = (day: number): boolean => {
   const today = new Date();
   return (
     day === today.getDate() &&
