@@ -47,7 +47,12 @@
         :time="daysInPreviousMonth - firstDayIndex + n"
         isGrayed
       />
-      <CalendarDayItem v-for="n in numberOfDays" :key="String(n)" :time="n" />
+      <CalendarDayItem
+        v-for="n in numberOfDays"
+        :key="String(n)"
+        :time="n"
+        :isToday="isToday(n)"
+      />
       <CalendarDayItem
         v-for="n in nextMonthVisibleDays"
         :key="String(n)"
@@ -112,5 +117,14 @@ const previous = () => {
 
 const goToToday = () => {
   date.value = new Date(); // Set the date to today
+};
+
+const isToday = (day: number) => {
+  const today = new Date();
+  return (
+    day === today.getDate() &&
+    month.value === today.getMonth() &&
+    year.value === today.getFullYear()
+  );
 };
 </script>
