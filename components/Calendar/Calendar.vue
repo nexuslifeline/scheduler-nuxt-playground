@@ -85,11 +85,7 @@ const lastDay = computed(() => new Date(year.value, month.value + 1, 0));
 const firstDayIndex = computed(() => firstDay.value.getDay());
 const numberOfDays = computed(() => lastDay.value.getDate());
 
-const nextMonthVisibleDays = computed(() => {
-  const totalOccupied = numberOfDays.value + firstDayIndex.value;
-  const requiredDays = totalOccupied > 35 ? 42 : 35;
-  return requiredDays - totalOccupied;
-});
+const nextMonthVisibleDays = computed(() => 6 - lastDay.value.getDay());
 
 const daysInPreviousMonth = computed(() => {
   const previousMonth = new Date(year.value, month.value, 0);
