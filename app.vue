@@ -1,5 +1,6 @@
 <template>
   <div class="w-full h-screen text-center flex flex-col items-start p-4">
+    <h3 class="p-2 mb-5">My Calendar</h3>
     <div class="flex w-full">
       <ViewSelector
         :selectedIndex="selectedIndex"

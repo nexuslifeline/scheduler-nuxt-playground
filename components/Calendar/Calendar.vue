@@ -17,9 +17,7 @@
       <div>F</div>
       <div>S</div>
     </div>
-    <div
-      class="mt-2 grid grid-cols-7 gap-px bg-gray-200 text-sm ring-1 ring-gray-200"
-    >
+    <div class="mt-2 grid grid-cols-7 bg-gray-200 text-sm">
       <CalendarDayItem
         v-for="(n, i) in firstDayIndex"
         :key="String(i)"

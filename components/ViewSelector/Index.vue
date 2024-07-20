@@ -38,7 +38,7 @@ const emit = defineEmits<{
 const buttonClass = (index: number) => {
   return props.selectedIndex === index
     ? "bg-blue-500 text-white border-blue-500"
-    : "bg-white text-gray-700 border-gray-300 hover:bg-blue-700 hover:text-white";
+    : "bg-white text-blue-500 border-blue-500 hover:bg-blue-700 hover:text-white";
 };
 
 const selectView = (index: number) => {

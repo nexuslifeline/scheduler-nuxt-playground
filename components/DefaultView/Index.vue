@@ -1,6 +1,6 @@
 <template>
   <div class="flex p-3 w-full">
-    <div class="flex-grow flex items-center justify-center">
+    <div class="flex-grow flex items-center justify-center text-md">
       <p v-if="eventTitle">
         {{ eventTitle }}
       </p>

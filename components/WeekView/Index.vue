@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen text-center flex flex-col p-2">
+  <div class="w-full h-full text-center flex flex-col p-2">
     <CalendarNavigation
       :months="months"
       :month="month"

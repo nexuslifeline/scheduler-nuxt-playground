@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="bg-white py-1.5 hover:bg-gray-100 focus:z-10"
+    class="bg-white py-1.5 hover:bg-gray-100 focus:z-10 border-b border-b-gray-200"
     :disabled="isGrayed"
   >
     <time
