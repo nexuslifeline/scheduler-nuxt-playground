@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen text-center flex flex-col items-start p-2">
+  <div class="w-full h-screen text-center flex flex-col items-start p-4">
     <div class="flex w-full">
       <ViewSelector
         :selectedIndex="selectedIndex"
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="flex-grow w-full">
-      <Calendar v-show="selectedIndex === 0" />
+      <DefaultView v-show="selectedIndex === 0" />
       <WeekView v-show="selectedIndex === 1" :events="eventsList" />
       <MonthView v-show="selectedIndex === 2" :events="eventsList" />
     </div>

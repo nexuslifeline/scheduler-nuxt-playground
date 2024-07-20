@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-60 mt-10 text-center">
+  <div class="w-80 mt-10 text-center">
     <CalendarNavigation
       :months="months"
       :month="month"
@@ -31,6 +31,12 @@
         :key="String(n)"
         :time="n"
         :isToday="isToday(n)"
+        :isActive="
+          n === selectedDate?.day &&
+          month === selectedDate.month &&
+          year === selectedDate.year
+        "
+        @click="selectDate(n)"
       />
       <CalendarDayItem
         v-for="n in nextMonthVisibleDays"
@@ -41,10 +47,22 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, defineEmits } from "vue";
 import { months } from "@/utils/constants";
 
+type ActiveDate = {
+  year: number;
+  month: number;
+  day: number;
+};
+
+const emit = defineEmits<{
+  (event: "changeDate", date: ActiveDate): void;
+}>();
+
+const selectedDate = ref<ActiveDate | null>(null);
 const date = ref<Date>(new Date());
 const year = computed<number>(() => date.value.getFullYear());
 const month = computed<number>(() => date.value.getMonth());
@@ -89,5 +107,15 @@ const isToday = (day: number): boolean => {
     month.value === today.getMonth() &&
     year.value === today.getFullYear()
   );
+};
+
+const selectDate = (day: number): void => {
+  const newDate: ActiveDate = {
+    day,
+    year: year.value,
+    month: month.value
+  };
+  selectedDate.value = newDate;
+  emit("changeDate", newDate); // Emit the event with the selected date
 };
 </script>
