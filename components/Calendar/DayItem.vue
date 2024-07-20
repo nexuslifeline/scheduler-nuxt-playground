@@ -9,7 +9,8 @@
       :class="{
         'text-gray-400': isGrayed,
         'bg-blue-500 rounded-full text-white': isToday,
-        'border-2 border-blue-500 bg-white rounded-full text-blue-500': isActive
+        'border-2 border-blue-500 bg-white rounded-full !text-blue-500':
+          isActive
       }"
     >
       {{ time }}

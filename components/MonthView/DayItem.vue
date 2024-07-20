@@ -6,7 +6,7 @@
   >
     <div class="flex flex-col h-10 w-7">
       <time
-        class="flex flex-grow h-7 w-7 items-center justify-center"
+        class="flex min-h-7 min-w-7 items-center justify-center"
         :class="{
           'text-gray-400': isGrayed,
           'bg-blue-500 rounded-full text-white': isToday
