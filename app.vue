@@ -1,3 +1,3 @@
 <template>
-  <MonthView />
+  <WeekView />
 </template>
