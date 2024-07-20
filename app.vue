@@ -16,8 +16,8 @@
     </div>
     <div class="flex-grow w-full">
       <Calendar v-show="selectedIndex === 0" />
-      <WeekView v-show="selectedIndex === 1" />
-      <MonthView v-show="selectedIndex === 2" />
+      <WeekView v-show="selectedIndex === 1" :events="eventsList" />
+      <MonthView v-show="selectedIndex === 2" :events="eventsList" />
     </div>
     <Modal
       v-if="showModal"
@@ -59,13 +59,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { saveSchedule } from "@/utils/api";
+import { convertSchedulesToEvents } from "@/utils/helpers";
 
 const selectedIndex = ref<number>(0);
 const showModal = ref<boolean>(false);
 const title = ref<string>("");
 const dateTime = ref<string>(new Date().toISOString().split("T")[0]);
+
+const eventsList = ref<
+  { year: number; month: number; day: number; title: string }[]
+>([]);
+
+// Load initial events from localStorage
+const loadInitialEvents = () => {
+  const existingSchedules = localStorage.getItem("schedules");
+  if (existingSchedules) {
+    const schedules = JSON.parse(existingSchedules);
+    eventsList.value = convertSchedulesToEvents(schedules);
+  }
+};
+
+// Fetch initial events when the component is mounted
+onMounted(() => {
+  loadInitialEvents();
+});
 
 const handleViewSelected = (index: number): void => {
   selectedIndex.value = index;
@@ -79,7 +98,13 @@ const openModal = (): void => {
 
 const handleSave = async (): Promise<void> => {
   if (dateTime.value && title.value) {
-    await saveSchedule({ title: title.value, dateTime: dateTime.value });
+    // Save the new schedule and get the updated list of events
+    await saveSchedule({
+      title: title.value,
+      dateTime: dateTime.value
+    });
+
+    loadInitialEvents();
     showModal.value = false;
   }
 };

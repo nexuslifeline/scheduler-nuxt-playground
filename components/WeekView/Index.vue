@@ -12,7 +12,10 @@
       <div
         v-for="(day, i) in weekDays"
         :key="i"
-        class="text-center ring-1 ring-gray-200 bg-white gap-px"
+        :class="[
+          'text-center ring-1 ring-gray-200 gap-px',
+          hasEvents(day.date) ? 'bg-blue-200' : 'bg-white'
+        ]"
       >
         <div class="flex flex-col">
           <div
@@ -21,7 +24,17 @@
             {{ day.name }} &nbsp;
             <span class="text-sm font-semibold">{{ day.date.getDate() }}</span>
           </div>
-          <div class="p-4 flex-grow"></div>
+          <div class="p-4 flex-grow">
+            <div v-if="eventsForDay(day.date).length" class="p-2">
+              <div
+                v-for="(event, i) in eventsForDay(day.date)"
+                :key="i"
+                class="text-xs text-blue-500"
+              >
+                {{ event.title }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -32,9 +45,20 @@
 import { ref, computed } from "vue";
 import { months } from "@/utils/constants";
 
+const props = defineProps<{
+  events: { year: number; month: number; day: number; title: string }[];
+}>();
+
 interface Day {
   date: Date;
   name: string;
+}
+
+interface Event {
+  year: number;
+  month: number;
+  day: number;
+  title: string;
 }
 
 const date = ref(new Date());
@@ -73,5 +97,19 @@ const next = (): void => {
 
 const goToToday = (): void => {
   date.value = new Date();
+};
+
+const eventsForDay = (date: Date) => {
+  return props.events.filter(event => {
+    return (
+      event.year === date.getFullYear() &&
+      event.month === date.getMonth() + 1 &&
+      event.day === date.getDate()
+    );
+  });
+};
+
+const hasEvents = (date: Date) => {
+  return eventsForDay(date).length > 0;
 };
 </script>
