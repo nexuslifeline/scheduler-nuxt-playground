@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 text-center text-center p-2">
+  <div class="w-100 text-center p-2">
     <CalendarNavigation
       :months="months"
       :month="month"
@@ -27,25 +27,33 @@
         :key="String(i)"
         :time="daysInPreviousMonth - firstDayIndex + n"
         isGrayed
+        :events="props.events"
       />
       <MonthViewDayItem
         v-for="n in numberOfDays"
         :key="String(n)"
         :time="n"
         :isToday="isToday(n)"
+        :events="props.events"
       />
       <MonthViewDayItem
         v-for="n in nextMonthVisibleDays"
         :key="String(n)"
         :time="n"
         isGrayed
+        :events="props.events"
       />
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { months } from "@/utils/constants";
+
+const props = defineProps<{
+  events: { year: number; month: number; day: number; title: string }[];
+}>();
 
 const date = ref<Date>(new Date());
 const year = computed<number>(() => date.value.getFullYear());
