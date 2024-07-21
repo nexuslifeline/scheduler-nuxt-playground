@@ -14,7 +14,7 @@
         :key="i"
         :class="[
           'text-center ring-1 ring-gray-200 gap-px',
-          hasEvents(day.date) ? 'bg-blue-200' : 'bg-white'
+          hasEvents(day.date) ? 'bg-blue-200 cursor-pointer' : 'bg-white'
         ]"
         @click="() => viewDate(day.date.getDate())"
       >
