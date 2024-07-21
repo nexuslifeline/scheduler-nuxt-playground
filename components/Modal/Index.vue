@@ -40,7 +40,7 @@
         </button>
         <button
           @click="close"
-          class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+          class="bg-white border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-500 hover:text-white hover:border-gray-500"
         >
           Cancel
         </button>

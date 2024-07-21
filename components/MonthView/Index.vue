@@ -35,6 +35,7 @@
         :time="n"
         :isToday="isToday(n)"
         :events="props.events"
+        @viewSelected="() => viewDate(n)"
       />
       <MonthViewDayItem
         v-for="n in nextMonthVisibleDays"
@@ -51,8 +52,18 @@
 import { ref, computed } from "vue";
 import { months } from "@/utils/constants";
 
+type ActiveDate = {
+  year: number;
+  month: number;
+  day: number;
+};
+
 const props = defineProps<{
   events: { year: number; month: number; day: number; title: string }[];
+}>();
+
+const emit = defineEmits<{
+  (event: "viewSelected", date: ActiveDate): void;
 }>();
 
 const date = ref<Date>(new Date());
@@ -99,5 +110,10 @@ const isToday = (day: number): boolean => {
     month.value === today.getMonth() &&
     year.value === today.getFullYear()
   );
+};
+
+const viewDate = (day: number): void => {
+  const date = { day, month: month.value + 1, year: year.value };
+  emit("viewSelected", date);
 };
 </script>

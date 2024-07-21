@@ -17,8 +17,16 @@
     </div>
     <div class="flex-grow w-full">
       <DefaultView v-show="selectedIndex === 0" />
-      <WeekView v-show="selectedIndex === 1" :events="eventsList" />
-      <MonthView v-show="selectedIndex === 2" :events="eventsList" />
+      <WeekView
+        v-show="selectedIndex === 1"
+        :events="eventsList"
+        @viewSelected="viewSelected"
+      />
+      <MonthView
+        v-show="selectedIndex === 2"
+        :events="eventsList"
+        @viewSelected="viewSelected"
+      />
     </div>
     <Modal
       v-if="showModal"
@@ -64,10 +72,23 @@ import { ref, onMounted } from "vue";
 import { saveSchedule } from "@/utils/api";
 import { convertSchedulesToEvents } from "@/utils/helpers";
 
+type ActiveDate = {
+  year: number;
+  month: number;
+  day: number;
+};
+
+interface Schedule {
+  date: string;
+  title: string;
+}
+
 const selectedIndex = ref<number>(0);
 const showModal = ref<boolean>(false);
 const title = ref<string>("");
 const dateTime = ref<string>(new Date().toISOString().split("T")[0]);
+
+const oldDateTime = ref<string>("");
 
 const eventsList = ref<
   { year: number; month: number; day: number; title: string }[]
@@ -82,7 +103,6 @@ const loadInitialEvents = () => {
   }
 };
 
-// Fetch initial events when the component is mounted
 onMounted(() => {
   loadInitialEvents();
 });
@@ -97,16 +117,35 @@ const openModal = (): void => {
   showModal.value = true;
 };
 
-const handleSave = async (): Promise<void> => {
+const handleSave = (): void => {
   if (dateTime.value && title.value) {
     // Save the new schedule and get the updated list of events
-    await saveSchedule({
-      title: title.value,
-      dateTime: dateTime.value
-    });
+    try {
+      saveSchedule({
+        title: title.value,
+        dateTime: dateTime.value
+      });
 
-    loadInitialEvents();
-    showModal.value = false;
+      if (oldDateTime.value !== dateTime.value) {
+        removeSchedule(oldDateTime.value);
+      }
+      loadInitialEvents();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      oldDateTime.value;
+      showModal.value = false;
+    }
   }
+};
+
+const viewSelected = (date: ActiveDate): void => {
+  const strDate = formatDate(`${date.month}-${date.day}-${date.year}`);
+  const schedule: Schedule = getSchedule(strDate);
+
+  title.value = schedule.title;
+  dateTime.value = strDate;
+  oldDateTime.value = strDate;
+  showModal.value = true;
 };
 </script>

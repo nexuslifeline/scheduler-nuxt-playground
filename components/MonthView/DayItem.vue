@@ -4,6 +4,7 @@
     class="bg-white p-5 hover:bg-gray-100 focus:z-10"
     :class="{ 'bg-blue-100': eventTitles.length, '!bg-sky-100': isGrayed }"
     :disabled="isGrayed"
+    @click="viewDate"
   >
     <div class="flex flex-col h-10 w-7">
       <time
@@ -44,6 +45,10 @@ const props = withDefaults(
   }
 );
 
+const emit = defineEmits<{
+  (event: "viewSelected"): void;
+}>();
+
 const eventTitles = computed(() => {
   return (
     props.events?.filter(event => {
@@ -59,4 +64,6 @@ const eventTitles = computed(() => {
     }) || []
   );
 });
+
+const viewDate = (): void => emit("viewSelected");
 </script>

@@ -16,6 +16,7 @@
           'text-center ring-1 ring-gray-200 gap-px',
           hasEvents(day.date) ? 'bg-blue-200' : 'bg-white'
         ]"
+        @click="() => viewDate(day.date.getDate())"
       >
         <div class="flex flex-col">
           <div
@@ -45,21 +46,24 @@
 import { ref, computed } from "vue";
 import { months } from "@/utils/constants";
 
-const props = defineProps<{
-  events: { year: number; month: number; day: number; title: string }[];
-}>();
-
 interface Day {
   date: Date;
   name: string;
 }
 
-interface Event {
+interface ActiveDate {
   year: number;
   month: number;
   day: number;
-  title: string;
 }
+
+const props = defineProps<{
+  events: { year: number; month: number; day: number; title: string }[];
+}>();
+
+const emit = defineEmits<{
+  (event: "viewSelected", date: ActiveDate): void;
+}>();
 
 const date = ref(new Date());
 
@@ -111,5 +115,10 @@ const eventsForDay = (date: Date) => {
 
 const hasEvents = (date: Date) => {
   return eventsForDay(date).length > 0;
+};
+
+const viewDate = (day: number) => {
+  const date = { day, month: month.value + 1, year: year.value };
+  emit("viewSelected", date);
 };
 </script>
