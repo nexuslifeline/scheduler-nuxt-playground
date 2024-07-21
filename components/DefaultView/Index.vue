@@ -13,32 +13,29 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-interface Date {
+interface IActiveDate {
   year: number;
   month: number;
   day: number;
 }
 
 const today = new Date();
-const defaultDate: Date = {
+const defaultDate: IActiveDate = {
   year: today.getFullYear(),
   month: today.getMonth(),
   day: today.getDate()
 };
 
-const selectedDate = ref<Date>(defaultDate);
+const selectedDate = ref<IActiveDate>(defaultDate);
 const eventTitle = ref<string | null>(null);
 
-const loadEvent = (date: Date): void => {
-  const existingSchedules = localStorage.getItem("schedules");
-  if (existingSchedules) {
-    const schedules: Record<string, string> = JSON.parse(existingSchedules);
-    const key = `${date.year}-${date.month + 1}-${date.day}`;
-    eventTitle.value = schedules[key] || null;
-  }
+const loadEvent = (date: IActiveDate): void => {
+  const key: string = formatDate(`${date.year}-${date.month}-${date.day}`);
+  const schedule = getSchedule(key);
+  eventTitle.value = schedule.title;
 };
 
-const handleDateSelected = (date: Date): void => {
+const handleDateSelected = (date: IActiveDate): void => {
   selectedDate.value = date;
   loadEvent(date);
 };

@@ -143,7 +143,7 @@ const viewSelected = (date: ActiveDate): void => {
   const strDate = formatDate(`${date.month}-${date.day}-${date.year}`);
   const schedule: Schedule = getSchedule(strDate);
 
-  if (Object.keys(schedule || {}).length) {
+  if (schedule.title && schedule.date) {
     title.value = schedule.title;
     dateTime.value = strDate;
     oldDateTime.value = strDate;

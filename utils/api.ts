@@ -51,12 +51,12 @@ export const getSchedules = () => {
 };
 
 
-export const getSchedule = (key: string): Schedule | {} => {
+export const getSchedule = (key: string): Schedule => {
  const schedules = getSchedules();
  const value = schedules[key] || "";
 
  if (!schedules[key]) {
-  return {};
+  return { title: "", date: "" };
  }
 
  return { date: key, title: value };
