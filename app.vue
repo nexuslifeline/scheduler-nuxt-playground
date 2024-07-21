@@ -63,6 +63,14 @@
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         />
       </div>
+      <template #footer-buttons>
+        <button
+          @click="deleteSchedule"
+          class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700 mr-auto"
+        >
+          Delete
+        </button>
+      </template>
     </Modal>
   </div>
 </template>
@@ -85,13 +93,13 @@ const oldDateTime = ref<string>("");
 
 const eventsList = ref<IEvent[]>([]);
 
-const loadInitialEvents = () => {
+const loadEvents = () => {
   const schedules = getSchedules();
   eventsList.value = convertSchedulesToEvents(schedules);
 };
 
 onMounted(() => {
-  loadInitialEvents();
+  loadEvents();
 });
 
 const handleViewSelected = (index: number): void => {
@@ -116,13 +124,25 @@ const handleSave = (): void => {
       if (oldDateTime.value !== dateTime.value) {
         removeSchedule(oldDateTime.value);
       }
-      loadInitialEvents();
+
+      loadEvents();
     } catch (err) {
       console.error(err);
     } finally {
       oldDateTime.value;
       showModal.value = false;
     }
+  }
+};
+
+const deleteSchedule = (): void => {
+  try {
+    removeSchedule(oldDateTime.value);
+    loadEvents();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    showModal.value = false;
   }
 };
 

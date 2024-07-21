@@ -32,6 +32,7 @@
       </div>
       <!-- Modal Footer -->
       <div class="flex justify-end mt-4">
+        <slot name="footer-buttons"></slot>
         <button
           @click="save"
           class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
