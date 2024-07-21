@@ -1,5 +1,5 @@
 import { ref, computed } from "vue";
-import type { IActiveDate } from "~/interfaces/IActiveDate";
+import type { IActiveDate } from "@/interfaces/ActiveDate";
 
 export function useCalendar() {
  const selectedDate = ref<IActiveDate | null>(null);

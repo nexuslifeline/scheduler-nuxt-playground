@@ -51,7 +51,7 @@ import { defineEmits } from "vue";
 
 import { months } from "@/utils/constants";
 import { useCalendar } from "@/composables/useCalendar";
-import type { IActiveDate } from "@/interfaces/IActiveDate";
+import type { IActiveDate } from "@/interfaces/ActiveDate";
 
 const emit = defineEmits<{
   (event: "changeDate", date: IActiveDate): void;
