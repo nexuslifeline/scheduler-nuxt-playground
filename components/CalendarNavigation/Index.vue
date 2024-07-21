@@ -27,11 +27,11 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
+import { months } from "@/utils/constants";
 
 const props = defineProps<{
   month: number;
   year: number;
-  months: string[];
 }>();
 
 const emit = defineEmits<{

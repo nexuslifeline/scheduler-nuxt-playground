@@ -1,7 +1,6 @@
 <template>
   <div class="w-80 mt-10 text-center">
     <CalendarNavigation
-      :months="months"
       :month="month"
       :year="year"
       @previous="previous"
@@ -49,7 +48,6 @@
 <script setup lang="ts">
 import { defineEmits } from "vue";
 
-import { months } from "@/utils/constants";
 import { useCalendar } from "@/composables/useCalendar";
 import type { IActiveDate } from "@/interfaces/ActiveDate";
 

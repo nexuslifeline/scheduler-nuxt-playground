@@ -1,7 +1,6 @@
 <template>
   <div class="w-full h-full text-center flex flex-col p-2">
     <CalendarNavigation
-      :months="months"
       :month="month"
       :year="year"
       @previous="previous"
@@ -45,7 +44,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-import { months } from "@/utils/constants";
 import type { IActiveDate } from "@/interfaces/ActiveDate";
 import type { IWeekDay } from "@/interfaces/WeekDay";
 import type { IEvent } from "@/interfaces/Event";
