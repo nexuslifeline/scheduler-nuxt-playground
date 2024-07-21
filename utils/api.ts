@@ -1,8 +1,4 @@
-interface Schedule {
- date: string;
- title: string;
-}
-
+import type { ISchedule } from "~/interfaces/Schedule";
 // Simulate an API call with a delay// apis.ts
 export const saveSchedule = (newEvent: { title: string; dateTime: string }): void => {
  const schedules = getSchedules() || {};
@@ -51,7 +47,7 @@ export const getSchedules = () => {
 };
 
 
-export const getSchedule = (key: string): Schedule => {
+export const getSchedule = (key: string): ISchedule => {
  const schedules = getSchedules();
  const value = schedules[key] || "";
 

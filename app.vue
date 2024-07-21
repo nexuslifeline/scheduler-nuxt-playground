@@ -69,19 +69,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { saveSchedule } from "@/utils/api";
+
+import { saveSchedule, getSchedules } from "@/utils/api";
 import { convertSchedulesToEvents } from "@/utils/helpers";
-
-type ActiveDate = {
-  year: number;
-  month: number;
-  day: number;
-};
-
-interface Schedule {
-  date: string;
-  title: string;
-}
+import type { IActiveDate } from "@/interfaces/ActiveDate";
+import type { IEvent } from "@/interfaces/Event";
+import type { ISchedule } from "@/interfaces/Schedule";
 
 const selectedIndex = ref<number>(0);
 const showModal = ref<boolean>(false);
@@ -90,17 +83,11 @@ const dateTime = ref<string>(new Date().toISOString().split("T")[0]);
 
 const oldDateTime = ref<string>("");
 
-const eventsList = ref<
-  { year: number; month: number; day: number; title: string }[]
->([]);
+const eventsList = ref<IEvent[]>([]);
 
-// Load initial events from localStorage
 const loadInitialEvents = () => {
-  const existingSchedules = localStorage.getItem("schedules");
-  if (existingSchedules) {
-    const schedules = JSON.parse(existingSchedules);
-    eventsList.value = convertSchedulesToEvents(schedules);
-  }
+  const schedules = getSchedules();
+  eventsList.value = convertSchedulesToEvents(schedules);
 };
 
 onMounted(() => {
@@ -139,9 +126,9 @@ const handleSave = (): void => {
   }
 };
 
-const viewSelected = (date: ActiveDate): void => {
+const viewSelected = (date: IActiveDate): void => {
   const strDate = formatDate(`${date.month}-${date.day}-${date.year}`);
-  const schedule: Schedule = getSchedule(strDate);
+  const schedule: ISchedule = getSchedule(strDate);
 
   if (schedule.title && schedule.date) {
     title.value = schedule.title;
