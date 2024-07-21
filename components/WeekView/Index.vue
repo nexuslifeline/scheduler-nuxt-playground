@@ -44,25 +44,18 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+
 import { months } from "@/utils/constants";
-
-interface Day {
-  date: Date;
-  name: string;
-}
-
-interface ActiveDate {
-  year: number;
-  month: number;
-  day: number;
-}
+import type { IActiveDate } from "@/interfaces/ActiveDate";
+import type { IWeekDay } from "@/interfaces/WeekDay";
+import type { IEvent } from "@/interfaces/Event";
 
 const props = defineProps<{
-  events: { year: number; month: number; day: number; title: string }[];
+  events: IEvent[];
 }>();
 
 const emit = defineEmits<{
-  (event: "viewSelected", date: ActiveDate): void;
+  (event: "viewSelected", date: IActiveDate): void;
 }>();
 
 const date = ref(new Date());
@@ -70,10 +63,10 @@ const date = ref(new Date());
 const year = computed<number>(() => date.value.getFullYear());
 const month = computed<number>(() => date.value.getMonth());
 
-const weekDays = computed<Day[]>(() => {
+const weekDays = computed<IWeekDay[]>(() => {
   const startOfWeek = new Date(date.value);
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-  const days: Day[] = [];
+  const days: IWeekDay[] = [];
 
   for (let i = 0; i < 7; i++) {
     const currentDay = new Date(startOfWeek);
